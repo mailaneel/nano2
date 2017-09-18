@@ -1,0 +1,65 @@
+{
+  "name": "nano2",
+  "version": "0.0.4",
+  "description": "nano2 service actions(functions) framework, supports middleware and plugins.",
+  "main": "lib/index.js",
+  "repository": "nano2js/nano2",
+  "keywords": [
+    "application",
+    "service",
+    "framework",
+    "actions",
+    "middleware",
+    "functions",
+    "cloud"
+  ],
+  "license": "MIT",
+  "engines": {
+    "node": ">= 8.0.0"
+  },
+  "scripts": {
+    "bench": "tsc; node lib/__benchmark__/index.js",
+    "test": "jest --coverage",
+    "test:watch": "jest --coverage --watch",
+    "lint": "tslint src/**/*.ts",
+    "lint:fix": "tslint src/**/*.ts --fix"
+  },
+  "devDependencies": {
+    "@types/jest": "^20.0.8",
+    "@types/node": "^8.0.28",
+    "benchmarkify": "^2.1.0",
+    "jest": "^21.0.2",
+    "ts-jest": "^21.0.0",
+    "tslint": "^5.7.0",
+    "tslint-config-airbnb": "^5.2.1",
+    "typescript": "^2.5.2"
+  },
+  "dependencies": {
+    "koa-compose": "^4.0.0",
+    "lodash": "^4.17.4",
+    "uuid": "^3.1.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "moduleDirectories": [
+      "node_modules",
+      "<rootDir>/src/"
+    ],
+    "testPathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir/lib/"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "transform": {
+      "^.+\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
+    },
+    "testRegex": "/__tests__/.*\\.(ts|tsx|js)$",
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/ts-jest/.*"
+    ]
+  }
+}

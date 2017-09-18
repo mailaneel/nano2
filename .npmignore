@@ -1,0 +1,10 @@
+src
+coverage
+**/__tests__
+**/__benchmark__
+**/__fixtures__
+**/__mocks__
+npm-debug.log
+tsconfig.json
+tslint.json
+.editorconfig
