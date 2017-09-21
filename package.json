@@ -1,6 +1,6 @@
 {
   "name": "nano2",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "nano2 service actions(functions) framework, supports middleware and plugins.",
   "main": "lib/index.js",
   "repository": "nano2js/nano2",
