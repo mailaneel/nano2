@@ -1,5 +1,5 @@
-import { pluginSpecs } from '../__fixtures__/pluginFixtures';
 import Plugin from '../Plugin';
+import { pluginSpecs } from './fixtures/pluginFixtures';
 
 describe('Plugin', () => {
 

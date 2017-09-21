@@ -8,7 +8,7 @@ import Plugins from './Plugins';
 import Service from './Service';
 import {
   IService,
-  IServiceFactoryConfig,
+  IServiceConfig,
 } from './types';
 import { getUUID } from './utils/uuid';
 
@@ -37,7 +37,7 @@ export const createPluginManager = () => {
   return new Plugins();
 };
 
-export const createService = (config: IServiceFactoryConfig = {}): IService => {
+export const createService = (config: Partial<IServiceConfig> = {}): IService => {
   const name = config.name;
   const plugins = config.plugins || createPluginManager();
   const middleware = config.middleware || createMiddlewareManager();

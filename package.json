@@ -45,10 +45,6 @@
       "node_modules",
       "<rootDir>/src/"
     ],
-    "testPathIgnorePatterns": [
-      "<rootDir>/node_modules/",
-      "<rootDir/lib/"
-    ],
     "moduleFileExtensions": [
       "ts",
       "tsx",
@@ -57,7 +53,7 @@
     "transform": {
       "^.+\\.(ts|tsx)$": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
-    "testRegex": "/__tests__/.*\\.(ts|tsx|js)$",
+    "testRegex": ".*\\.spec\\.(ts|tsx|js)$",
     "unmockedModulePathPatterns": [
       "<rootDir>/node_modules/ts-jest/.*"
     ]

@@ -1,6 +1,6 @@
-import { actionFullSpecs, actionSpecs } from '../__fixtures__/actionFixtures';
 import Action from '../Action';
 import Actions from '../Actions';
+import { actionFullSpecs, actionSpecs } from './fixtures/actionFixtures';
 
 describe('Actions', () => {
   let actions = null;

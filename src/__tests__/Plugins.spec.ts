@@ -1,6 +1,6 @@
-import { pluginSpecs } from '../__fixtures__/pluginFixtures';
 import Plugin from '../Plugin';
 import Plugins from '../Plugins';
+import { pluginSpecs } from './fixtures/pluginFixtures';
 
 describe('Plugins', () => {
   let plugins = null;

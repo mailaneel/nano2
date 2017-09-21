@@ -105,8 +105,6 @@ export interface IServiceConfig {
   runner: IActionRunner;
 }
 
-export type IServiceFactoryConfig = Partial<IServiceConfig>;
-
 export interface IService {
   id: string;
   name: string;

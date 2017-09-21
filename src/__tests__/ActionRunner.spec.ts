@@ -1,10 +1,10 @@
-import { actionFullSpecs, actionSpecs } from '../__fixtures__/actionFixtures';
 import ActionRunner from '../ActionRunner';
 import Actions from '../Actions';
 import ContextFactory from '../ContextFactory';
 import HandlerComposer from '../HandlerComposer';
 import HandlerResolver from '../HandlerResolver';
 import Middleware from '../Middleware';
+import { actionFullSpecs, actionSpecs } from './fixtures/actionFixtures';
 
 describe('ActionRunner', () => {
   let actions = null;

@@ -1,7 +1,7 @@
-import { actionFullSpecs, actionSpecs } from '../__fixtures__/actionFixtures';
-import { pluginSpecs } from '../__fixtures__/pluginFixtures';
 import Service from '../Service';
 import { createService } from '../ServiceFactory';
+import { actionFullSpecs, actionSpecs } from './fixtures/actionFixtures';
+import { pluginSpecs } from './fixtures/pluginFixtures';
 
 describe('Service', () => {
   let service = null;

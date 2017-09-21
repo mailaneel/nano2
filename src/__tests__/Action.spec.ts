@@ -1,5 +1,5 @@
-import { actionFullSpecs, actionSpecs } from '../__fixtures__/actionFixtures';
 import Action from '../Action';
+import { actionFullSpecs, actionSpecs } from './fixtures/actionFixtures';
 
 describe('Action', () => {
 
