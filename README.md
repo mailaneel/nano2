@@ -50,39 +50,73 @@ const multiplyResponse = await service.run('math.multiply', { a: 5, b: 3 });
 
 # Types
 
+### Handler
+
+```ts
+type IHandler = (ctx: IContext, next?: () => any) => any;
+```
+
 ### Action
 
-| name | type | default | description |
-| --- | --- | --- | --- |
-| name | string | - | Action name |
-| type? | string | action | Date.now() |
-| handler | Funtion | action handler |
-| version? | string | "1.0" | unique identifier |
-| description? | string | "" | unique identifier |
-| meta? | object | {} | meta data required for plugins / middleware |
+```ts
+interface IAction {
+  name: string;
+  handler: IHandler;
+  type?: string;
+  version?: string;
+  description?: string;
+  meta?: {
+    [key: string]: any;
+  };
+}
+```
 
 
 ### Plugin
 
-| name | type | default | description |
-| --- | --- | --- | --- |
-| name | string | - | Action name |
-| register | Function | - | will be called when start is called on service |
+```ts
+type IPluginRegiser = (service: IService) => Promise<void>;
 
+interface IPlugin {
+  name: string;
+  register: IPluginRegiser;
+}
+```
 
+### Params
+
+```ts
+interface IParams {
+  [key: string]: any;
+}
+```
+
+### Attributes
+
+```ts
+interface IAttributes {
+  timestamp?: number;
+  requestId?: string;
+  correlationId?: string;
+  from?: string;
+  [key: string]: any;
+}
+```
 
 ### Context
 
-| name | type | description |
-| --- | --- | --- |
-| action | string | Action name |
-| timestamp | number | Date.now() |
-| requestId | string | unique identifier |
-| correlationId? | string | unique identifier |
-| from? | string | calling service |
-| params | IRequestParams | params given to action runner |
-| attributes | IRequestAttributes | attributes given to action runner |
-
+```ts
+interface IContext {
+  action: string;
+  requestId: string;
+  timestamp: number;
+  correlationId?: string;
+  from?: string;
+  params: IParams;
+  attributes: IAttributes;
+  [key: string]: any;
+}
+```
 
 # Inspiration
 
