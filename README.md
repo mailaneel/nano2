@@ -50,6 +50,24 @@ const multiplyResponse = await service.run('math.multiply', { a: 5, b: 3 });
 
 # Types
 
+### Service
+
+```ts
+interface IService {
+  id: string;
+  name: string;
+  actions: IActions;
+  plugins: IPlugins;
+  middleware: IMiddleware;
+
+  action(action: string | IAction, handler?: IHandler): IService;
+  use(action: string | IHandler | IHandler[], handler?: IHandler | IHandler[]): IService;
+  register(spec: IPlugin | IPlugin[]): IService;
+  run(action: string, params?: IParams, attributes?: IAttributes): Promise<any>;
+  start(): Promise<void>;
+}
+```
+
 ### Handler
 
 ```ts
