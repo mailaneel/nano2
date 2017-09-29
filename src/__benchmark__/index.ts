@@ -1,8 +1,8 @@
 // tslint:disable-next-line:import-name
 import * as Benchmarkify from 'benchmarkify';
-import { createService } from '../index';
+import { createService } from '../ServiceFactory';
 
-const service = createService();
+const service = createService({});
 
 service.action('ping', (ctx) => {
   return '';

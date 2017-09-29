@@ -1,45 +1,31 @@
 import * as isObject from 'lodash/isObject';
 import {
   IAction,
-  IActionRunner,
-  IActions,
   IAttributes,
+  IConfig,
   IHandler,
-  IMiddleware,
   IParams,
-  IPlugin,
-  IPlugins,
   IService,
-  IServiceConfig,
 } from './types';
-import { getUUID } from './utils/uuid';
 
-export default class Service implements IService {
+export default class Service {
 
-  public id: string;
-  public name: string;
-  public actions: IActions;
-  public plugins: IPlugins;
-  public middleware: IMiddleware;
-  private runner: IActionRunner;
-  private config: IServiceConfig;
-  private startPromise: Promise<any> = null;
+  public actions;
+  public selectors;
+  public store;
 
-  constructor(config: IServiceConfig) {
-    this.config = config;
-    this.id = getUUID();
-    this.name = config.name || getUUID();
+  constructor(config: IConfig) {
     this.actions = config.actions;
-    this.plugins = config.plugins;
-    this.middleware = config.middleware;
-    this.runner = config.runner;
+    this.store = config.store;
+    this.selectors = config.selectors;
+    this.actions.serviceCreate();
   }
 
   public action(action: string | IAction, handler?: IHandler) {
     if (arguments.length === 1 && isObject(action)) {
-      this.actions.addAction(<IAction>action);
+      this.actions.actionAdd(<IAction>action);
     } else {
-      this.actions.addAction(<IAction>{
+      this.actions.actionAdd(<IAction>{
         handler,
         name: action,
       });
@@ -53,36 +39,25 @@ export default class Service implements IService {
 
     if (typeof action === 'string') {
       handlers = handlers.concat(handler);
-      handlers.forEach(h => this.middleware.addMiddleware(action, h));
+      handlers.forEach(h => this.actions.actionMiddlewareAdd(action, h));
     } else {
       handlers = handlers.concat(action);
-      handlers.forEach(h => this.middleware.addMiddleware(h));
+      handlers.forEach(h => this.actions.actionMiddlewareAdd(h));
     }
-
-    return this;
-  }
-
-  public register(plugin: IPlugin | IPlugin[]) {
-    const plugins = [].concat(plugin);
-    plugins.forEach((plug) => {
-      this.plugins.addPlugin(plug);
-    });
 
     return this;
   }
 
   public async run(action: string, params?: IParams, attributes?: IAttributes) {
-    return this.runner.run(action, params, attributes);
+    return this.actions.actionRun({ action, params, attributes });
   }
 
   public async start() {
-    if (!this.startPromise) {
-      const plugins = Object.values(this.plugins.getPlugins());
-      const promises = plugins.map(plugin => plugin.register(this));
-      this.startPromise = Promise.all(promises).then(() => Promise.resolve());
+    if (this.selectors.isServiceStarted(this.store.getState())) {
+      return;
     }
 
-    return this.startPromise;
+    return this.actions.serviceStart();
   }
 
 }

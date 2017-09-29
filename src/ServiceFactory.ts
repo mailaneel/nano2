@@ -1,57 +1,48 @@
-import ActionRunner from './ActionRunner';
-import Actions from './Actions';
-import ContextFactory from './ContextFactory';
-import HandlerComposer from './HandlerComposer';
-import HandlerResolver from './HandlerResolver';
-import Middleware from './Middleware';
-import Plugins from './Plugins';
+// tslint:disable import-name
+import * as mapValues from 'lodash/mapValues';
+import * as merge from 'lodash/merge';
+import * as reduceReducers from 'reduce-reducers';
+import { applyMiddleware, bindActionCreators, combineReducers, createStore } from 'redux';
+import defaultActions from './actions';
+import actionRunnerMiddleware from './middleware/actionRunnerMiddleware';
+import defaultReducers from './reducers';
+import defaultSelectors from './selectors';
 import Service from './Service';
-import {
-  IService,
-  IServiceConfig,
-} from './types';
-import { getUUID } from './utils/uuid';
 
-export const createActionRunner = ({
-  actions,
-  middleware,
-}) => {
-  return new ActionRunner(
+export const createReducer = (reducersMap) => {
+  return combineReducers(mapValues(reducersMap, (reducers) => {
+    return reduceReducers(...reducers);
+  }));
+};
+
+export const createService = (config) => {
+  const {
     actions,
-    middleware,
-    new HandlerResolver(),
-    new HandlerComposer(),
-    new ContextFactory(),
-  );
-};
+    reducers,
+    selectors,
+    middleware = [],
+    ...restConfig,
+   } = config;
 
-export const createMiddlewareManager = () => {
-  return new Middleware();
-};
+  const reducer = createReducer(merge(reducers, defaultReducers));
+  const enhancer = applyMiddleware(actionRunnerMiddleware, ...middleware);
+  const initialState = merge({}, restConfig);
+  const store = createStore(reducer, initialState, enhancer);
 
-export const createActionManager = () => {
-  return new Actions();
-};
+  const boundActions = bindActionCreators({
+    ...defaultActions,
+    ...actions,
+    // tslint:disable-next-line:align
+  }, store.dispatch);
 
-export const createPluginManager = () => {
-  return new Plugins();
-};
-
-export const createService = (config: Partial<IServiceConfig> = {}): IService => {
-  const name = config.name;
-  const plugins = config.plugins || createPluginManager();
-  const middleware = config.middleware || createMiddlewareManager();
-  const actions = config.actions || createActionManager();
-  const runner = config.runner || createActionRunner({
-    actions,
-    middleware,
-  });
+  const mergedSelectors = {
+    ...defaultSelectors,
+    ...selectors,
+  };
 
   return new Service({
-    name,
-    plugins,
-    middleware,
-    actions,
-    runner,
+    store,
+    selectors: mergedSelectors,
+    actions: boundActions,
   });
 };

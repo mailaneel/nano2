@@ -22,7 +22,8 @@
     "test": "jest --coverage",
     "test:watch": "jest --coverage --watch",
     "lint": "tslint src/**/*.ts",
-    "lint:fix": "tslint src/**/*.ts --fix"
+    "lint:fix": "tslint src/**/*.ts --fix",
+    "start": "tsc; node lib/test.js"
   },
   "devDependencies": {
     "@types/jest": "^20.0.8",
@@ -37,6 +38,9 @@
   "dependencies": {
     "koa-compose": "^4.0.0",
     "lodash": "^4.17.4",
+    "reduce-reducers": "^0.1.2",
+    "redux": "^3.7.2",
+    "reselect": "^3.0.1",
     "uuid": "^3.1.0"
   },
   "jest": {
