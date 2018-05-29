@@ -4,6 +4,7 @@ import ContextFactory from '../ContextFactory';
 import HandlerComposer from '../HandlerComposer';
 import HandlerResolver from '../HandlerResolver';
 import Middleware from '../Middleware';
+import { createService } from '../ServiceFactory';
 import { actionFullSpecs, actionSpecs } from './fixtures/actionFixtures';
 
 describe('ActionRunner', () => {
@@ -13,6 +14,7 @@ describe('ActionRunner', () => {
   let handlerComposer = null;
   let contextFactory = null;
   let runner = null;
+  let service = null;
 
   beforeEach(() => {
     actions = new Actions();
@@ -20,6 +22,7 @@ describe('ActionRunner', () => {
     handlerResolver = new HandlerResolver();
     handlerComposer = new HandlerComposer();
     contextFactory = new ContextFactory();
+    service = createService();
 
     runner = new ActionRunner(
       actions,
@@ -39,7 +42,7 @@ describe('ActionRunner', () => {
     it('should run the action with given name', async () => {
       actions.addAction(actionSpecs.ping);
       expect.assertions(1);
-      await expect(runner.run('ping')).resolves.toBe('pong');
+      await expect(runner.run(service, 'ping')).resolves.toBe('pong');
     });
 
     it('should run the action with middleware', async () => {
@@ -49,7 +52,7 @@ describe('ActionRunner', () => {
       actions.addAction(actionSpecs.ping);
       middleware.addMiddleware('ping', mockMiddleware);
       expect.assertions(1);
-      await expect(runner.run('ping')).resolves.toBe('pong');
+      await expect(runner.run(service, 'ping')).resolves.toBe('pong');
     });
 
   });

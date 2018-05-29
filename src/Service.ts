@@ -81,8 +81,8 @@ export default class Service implements IService {
     return this;
   }
 
-  public async run(action: string, params?: IParams, meta?: IMeta) {
-    return this.runner.run(action, params, meta);
+  public async call(action: string, params?: IParams, meta?: IMeta) {
+    return this.runner.run(this, action, params, meta);
   }
 
   public async start() {

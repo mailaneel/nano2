@@ -16,7 +16,7 @@ describe('Service', () => {
     expect(service.middleware).toBeDefined();
     expect(service.id).toBeDefined();
     expect(service.name).toBeDefined();
-    expect(service.run).toBeDefined();
+    expect(service.call).toBeDefined();
     expect(service.action).toBeDefined();
     expect(service.use).toBeDefined();
     expect(service.register).toBeDefined();
@@ -120,19 +120,19 @@ describe('Service', () => {
 
   });
 
-  describe('run', () => {
+  describe('call', () => {
 
-    it('should run the action', async () => {
+    it('should call the action', async () => {
       service.action(actionSpecs.ping);
       service.action(actionSpecs.version);
       service.action(actionSpecs['math.add']);
       service.action(actionSpecs['math.multiply']);
       expect.assertions(4);
 
-      await expect(service.run('ping')).resolves.toBe('pong');
-      await expect(service.run('version')).resolves.toBe('1.0');
-      await expect(service.run('math.add', { a: 5, b: 5 })).resolves.toBe(10);
-      await expect(service.run('math.multiply', { a: 5, b: 2 })).resolves.toBe(10);
+      await expect(service.call('ping')).resolves.toBe('pong');
+      await expect(service.call('version')).resolves.toBe('1.0');
+      await expect(service.call('math.add', { a: 5, b: 5 })).resolves.toBe(10);
+      await expect(service.call('math.multiply', { a: 5, b: 2 })).resolves.toBe(10);
     });
 
   });

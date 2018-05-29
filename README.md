@@ -63,14 +63,14 @@ await service.start()
 
 ```js
 
-// run ping action
-const pingResponse  = await service.run('ping');
+// call ping action
+const pingResponse  = await service.call('ping');
 
-// run math.add action
-const addResponse = await service.run('math.add', { a: 5, b: 3 });
+// call math.add action
+const addResponse = await service.call('math.add', { a: 5, b: 3 });
 
-// run math.multiply action
-const multiplyResponse = await service.run('math.multiply', { a: 5, b: 3 });
+// call math.multiply action
+const multiplyResponse = await service.call('math.multiply', { a: 5, b: 3 });
 ```
 
 ### Plugins

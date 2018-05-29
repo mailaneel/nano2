@@ -1,4 +1,4 @@
-import { IContext, IMeta, IParams } from './types';
+import { IContext, IMeta, IParams, IService } from './types';
 import { getTimeUUID } from './utils/uuid';
 
 export default class Context implements IContext {
@@ -10,8 +10,10 @@ export default class Context implements IContext {
   public from?: string;
   public params: IParams;
   public meta: IMeta;
+  public service: IService;
 
   constructor(
+    service: IService,
     action: string,
     params: IParams = {},
     meta: IMeta = {},
@@ -20,6 +22,7 @@ export default class Context implements IContext {
       throw new TypeError('action is required parameter and should be of type string');
     }
 
+    this.service = service;
     this.action = action;
     this.timestamp = meta.timestamp || Date.now();
     this.requestId = meta.requestId || getTimeUUID();
@@ -29,4 +32,12 @@ export default class Context implements IContext {
     this.meta = meta;
   }
 
+  async call(action: string, params?: IParams, meta?: IMeta) {
+    return this.service.call(action, params, {
+      timestamp: this.timestamp,
+      correlationId: this.correlationId || this.requestId,
+      from: this.service.name,
+      ...meta,
+    });
+  }
 }

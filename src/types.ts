@@ -19,6 +19,8 @@ export interface IContext {
   params: IParams;
   meta: IMeta;
   [key: string]: any;
+  service: IService;
+  call(action: string, params?: IParams, attributes?: IMeta): Promise<any>;
 }
 
 export type IHandler = (ctx: IContext, next?: () => any) => any;
@@ -83,6 +85,7 @@ export interface IHandlerResolver {
 
 export interface IContextFactory {
   createContext(
+    service: IService,
     action: string,
     params?: IParams,
     attributes?: IMeta,
@@ -91,6 +94,7 @@ export interface IContextFactory {
 
 export interface IActionRunner {
   run(
+    service: IService,
     action: string,
     params?: IParams,
     attributes?: IMeta,
@@ -116,6 +120,6 @@ export interface IService {
   action(action: string | IAction, handler?: IHandler): IService;
   use(action: string | IHandler | IHandler[], handler?: IHandler | IHandler[]): IService;
   register(spec: IPlugin | IPlugin[]): IService;
-  run(action: string, params?: IParams, attributes?: IMeta): Promise<any>;
+  call(action: string, params?: IParams, attributes?: IMeta): Promise<any>;
   start(): Promise<void>;
 }

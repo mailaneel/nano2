@@ -7,6 +7,7 @@ import {
   IMeta,
   IMiddleware,
   IParams,
+  IService,
 } from './types';
 
 export default class ActionRunner implements IActionRunner {
@@ -35,12 +36,13 @@ export default class ActionRunner implements IActionRunner {
   }
 
   public async run(
+    service: IService,
     action: string,
     params?: IParams,
     meta?: IMeta,
   ) {
     const handler = this.getHandlerToRun(action);
-    const ctx = this.contextFactory.createContext(action, params, meta);
+    const ctx = this.contextFactory.createContext(service, action, params, meta);
 
     return handler(ctx);
   }
