@@ -11,15 +11,18 @@ export interface IMeta {
 }
 
 export interface IContext {
+  service: IService;
   action: string;
-  requestId: string;
+  instanceId: string;
+  fromInstanceId?: string;
   timestamp: number;
+  requestId: string;
   correlationId?: string;
   from?: string;
   params: IParams;
+  level: number;
   meta: IMeta;
   [key: string]: any;
-  service: IService;
   call(action: string, params?: IParams, attributes?: IMeta): Promise<any>;
 }
 

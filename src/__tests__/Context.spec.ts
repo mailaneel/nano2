@@ -15,13 +15,18 @@ describe('Context', () => {
 
   it('should have all interface methods and properties', () => {
     const context = new Context(service, action);
+    expect(context.service).toBeDefined();
     expect(context.action).toBeDefined();
-    expect(context.call).toBeDefined();
-    expect(context.correlationId).toBeDefined();
+    expect(context.instanceId).toBeDefined();
+    expect(context.fromInstanceId).toBeDefined();
+    expect(context.timestamp).toBeDefined();
     expect(context.requestId).toBeDefined();
+    expect(context.correlationId).toBeDefined();
     expect(context.from).toBeDefined();
     expect(context.params).toBeDefined();
-    expect(context.timestamp).toBeDefined();
+    expect(context.meta).toBeDefined();
+    expect(context.call).toBeDefined();
+    expect(context.toJSON).toBeDefined();
   });
 
   it('should create with defaults', () => {
@@ -32,7 +37,7 @@ describe('Context', () => {
     expect(context.timestamp).toBeGreaterThan(0);
     expect(typeof context.requestId).toBe('string');
     expect(context.correlationId).toBeNull();
-    expect(context.from).toBeNull();
+    expect(context.from).toBe(service.name);
   });
 
   it('should create with given action', () => {
@@ -83,9 +88,34 @@ describe('Context', () => {
       service.call = jest.fn();
       await context.call('test.action');
       expect((<any>service.call).mock.calls[0][2]).toEqual({
-        timestamp: context.timestamp,
         correlationId: context.requestId,
         from: service.name,
+        fromInstanceId: service.id,
+        level: 2,
+      });
+    });
+  });
+
+  describe('toJSON', () => {
+    it('should pass meta data to child calls', async () => {
+      expect.assertions(1);
+      const meta = {
+        from: 'some.service',
+        fromInstanceId: 'test1234',
+      };
+      const context = new Context(service, action, params, meta);
+      expect(context.toJSON()).toEqual({
+        action,
+        params,
+        meta,
+        instanceId: service.id,
+        fromInstanceId: 'test1234',
+        service: service.name,
+        timestamp: context.timestamp,
+        requestId: context.requestId,
+        correlationId: null,
+        from: 'some.service',
+        level: 1,
       });
     });
   });
