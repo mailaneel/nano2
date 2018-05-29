@@ -1,10 +1,11 @@
 import * as isObject from 'lodash/isObject';
 import {
   IAction,
+  IActionMap,
   IActionRunner,
   IActions,
-  IAttributes,
   IHandler,
+  IMeta,
   IMiddleware,
   IParams,
   IPlugin,
@@ -21,23 +22,32 @@ export default class Service implements IService {
   public actions: IActions;
   public plugins: IPlugins;
   public middleware: IMiddleware;
+  public config: IServiceConfig;
   private runner: IActionRunner;
-  private config: IServiceConfig;
-  private startPromise: Promise<any> = null;
+  private startPromise: Promise<any>;
 
   constructor(config: IServiceConfig) {
     this.config = config;
     this.id = getUUID();
-    this.name = config.name || getUUID();
-    this.actions = config.actions;
-    this.plugins = config.plugins;
-    this.middleware = config.middleware;
-    this.runner = config.runner;
+    this.name = this.config.name || this.id;
+    this.actions = this.config.actions;
+    this.plugins = this.config.plugins;
+    this.middleware = this.config.middleware;
+    this.runner = this.config.runner;
   }
 
-  public action(action: string | IAction, handler?: IHandler) {
+  public action(action: string | IAction | IActionMap, handler?: IHandler) {
     if (arguments.length === 1 && isObject(action)) {
-      this.actions.addAction(<IAction>action);
+      if ((<IAction>action).handler && (<IAction>action).name) {
+        // add action from action spec
+        this.actions.addAction(<IAction>action);
+      } else {
+        // add actions from action map
+        const actions = Object.keys(<IActionMap>action);
+        actions.forEach((actionName) => {
+          this.actions.addAction((<IActionMap>action)[actionName]);
+        });
+      }
     } else {
       this.actions.addAction(<IAction>{
         handler,
@@ -71,8 +81,8 @@ export default class Service implements IService {
     return this;
   }
 
-  public async run(action: string, params?: IParams, attributes?: IAttributes) {
-    return this.runner.run(action, params, attributes);
+  public async run(action: string, params?: IParams, meta?: IMeta) {
+    return this.runner.run(action, params, meta);
   }
 
   public async start() {

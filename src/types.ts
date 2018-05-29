@@ -2,7 +2,7 @@ export interface IParams {
   [key: string]: any;
 }
 
-export interface IAttributes {
+export interface IMeta {
   timestamp?: number;
   requestId?: string;
   correlationId?: string;
@@ -17,7 +17,7 @@ export interface IContext {
   correlationId?: string;
   from?: string;
   params: IParams;
-  attributes: IAttributes;
+  meta: IMeta;
   [key: string]: any;
 }
 
@@ -85,7 +85,7 @@ export interface IContextFactory {
   createContext(
     action: string,
     params?: IParams,
-    attributes?: IAttributes,
+    attributes?: IMeta,
   ): IContext;
 }
 
@@ -93,7 +93,7 @@ export interface IActionRunner {
   run(
     action: string,
     params?: IParams,
-    attributes?: IAttributes,
+    attributes?: IMeta,
   ): Promise<any>;
 }
 
@@ -111,10 +111,11 @@ export interface IService {
   actions: IActions;
   plugins: IPlugins;
   middleware: IMiddleware;
+  config: IServiceConfig;
 
   action(action: string | IAction, handler?: IHandler): IService;
   use(action: string | IHandler | IHandler[], handler?: IHandler | IHandler[]): IService;
   register(spec: IPlugin | IPlugin[]): IService;
-  run(action: string, params?: IParams, attributes?: IAttributes): Promise<any>;
+  run(action: string, params?: IParams, attributes?: IMeta): Promise<any>;
   start(): Promise<void>;
 }

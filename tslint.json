@@ -1,6 +1,8 @@
 {
   "extends": "tslint-config-airbnb",
   "rules": {
-    "ordered-imports": true
+    "ordered-imports": true,
+    "import-name": false,
+    "align": false
   }
 }

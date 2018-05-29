@@ -3,7 +3,7 @@ import Context from '../Context';
 const action = 'test-action';
 const params = { a: 1, b: 2 };
 const emptyParams = {};
-const emptyAttributes = {};
+const emptyMeta = {};
 
 describe('Context', () => {
 
@@ -25,7 +25,7 @@ describe('Context', () => {
     const context = new Context(action);
     expect(context.action).toBe(action);
     expect(context.params).toEqual({});
-    expect(context.attributes).toEqual({});
+    expect(context.meta).toEqual({});
     expect(context.timestamp).toBeGreaterThan(0);
     expect(typeof context.requestId).toBe('string');
     expect(context.correlationId).toBeNull();
@@ -42,19 +42,19 @@ describe('Context', () => {
     expect(context.params).toBe(params);
   });
 
-  it('should create with given attributes', () => {
-    const context = new Context(action, params, emptyAttributes);
-    expect(context.attributes).toBe(emptyAttributes);
+  it('should create with given meta', () => {
+    const context = new Context(action, params, emptyMeta);
+    expect(context.meta).toBe(emptyMeta);
   });
 
-  it('should use correlationId if passed in attributes', () => {
+  it('should use correlationId if passed in meta', () => {
     const context = new Context(action, params, {
       correlationId: '12345',
     });
     expect(context.correlationId).toBe('12345');
   });
 
-  it('should use from if passed in attributes', () => {
+  it('should use from if passed in meta', () => {
     const context = new Context(action, params, {
       from: 'some.service',
     });

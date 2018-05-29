@@ -34,6 +34,14 @@ describe('Service', () => {
     });
 
     it('should add action using action spec', () => {
+      const actionsTotal = Object.keys(actionFullSpecs);
+      service.action(actionFullSpecs);
+      Object.keys(actionFullSpecs).forEach((actionName) => {
+        expect(service.actions.hasAction(actionName)).toBeTruthy();
+      });
+    });
+
+    it('should add action using action map', () => {
       const spec = actionSpecs.ping;
       service.action(spec);
       const action = service.actions.getAction(spec.name);

@@ -10,7 +10,6 @@ import {
   IService,
   IServiceConfig,
 } from './types';
-import { getUUID } from './utils/uuid';
 
 export const createActionRunner = ({
   actions,

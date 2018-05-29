@@ -4,7 +4,7 @@ import { createService } from '../index';
 
 const service = createService();
 
-service.action('ping', (ctx) => {
+service.action('ping', () => {
   return '';
 });
 

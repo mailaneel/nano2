@@ -1,8 +1,8 @@
 import Context from './Context';
 import {
-  IAttributes,
   IContext,
   IContextFactory,
+  IMeta,
   IParams,
 } from './types';
 
@@ -11,12 +11,12 @@ export default class ContextFactory implements IContextFactory {
   public createContext(
     action: string,
     params?: IParams,
-    attributes?: IAttributes,
+    meta?: IMeta,
   ): IContext {
     return new Context(
       action,
       params,
-      attributes,
+      meta,
     );
   }
 

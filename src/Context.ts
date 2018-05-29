@@ -1,4 +1,4 @@
-import { IAttributes, IContext, IParams } from './types';
+import { IContext, IMeta, IParams } from './types';
 import { getTimeUUID } from './utils/uuid';
 
 export default class Context implements IContext {
@@ -9,24 +9,24 @@ export default class Context implements IContext {
   public correlationId?: string;
   public from?: string;
   public params: IParams;
-  public attributes: IAttributes;
+  public meta: IMeta;
 
   constructor(
     action: string,
     params: IParams = {},
-    attributes: IAttributes = {},
+    meta: IMeta = {},
   ) {
     if (!action || typeof action !== 'string') {
       throw new TypeError('action is required parameter and should be of type string');
     }
 
     this.action = action;
-    this.timestamp = attributes.timestamp || Date.now();
-    this.requestId = attributes.requestId || getTimeUUID();
-    this.correlationId = attributes.correlationId || null;
-    this.from = attributes.from || null;
+    this.timestamp = meta.timestamp || Date.now();
+    this.requestId = meta.requestId || getTimeUUID();
+    this.correlationId = meta.correlationId || null;
+    this.from = meta.from || null;
     this.params = params;
-    this.attributes = attributes;
+    this.meta = meta;
   }
 
 }

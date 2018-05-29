@@ -1,11 +1,10 @@
 import {
   IActionRunner,
   IActions,
-  IAttributes,
-  IContext,
   IContextFactory,
   IHandlerComposer,
   IHandlerResolver,
+  IMeta,
   IMiddleware,
   IParams,
 } from './types';
@@ -38,10 +37,10 @@ export default class ActionRunner implements IActionRunner {
   public async run(
     action: string,
     params?: IParams,
-    attributes?: IAttributes,
+    meta?: IMeta,
   ) {
     const handler = this.getHandlerToRun(action);
-    const ctx = this.contextFactory.createContext(action, params, attributes);
+    const ctx = this.contextFactory.createContext(action, params, meta);
 
     return handler(ctx);
   }

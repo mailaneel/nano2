@@ -8,7 +8,7 @@ $ npm install nano2
 
 # Usage
 
-### Ping
+### Create Service
 
 ```js
 import nano2 from 'nano2';
@@ -16,19 +16,27 @@ import nano2 from 'nano2';
 // create service
 const service = nano2();
 
+```
+
+### Middleware
+
+Middleware works same as koa js middleware and internally it uses koa-compose
+
+```js
+service.use((ctx, next) => {
+  ctx.meta.user = {
+    name: 'user',
+  };
+  return next();
+});
+```
+
+### Actions
+
+```js
 // add ping action
 service.action('ping', () => 'pong');
 
-// start service
-await service.start();
-
-// run ping action
-const pingResponse  = await service.run('ping');
-```
-
-### Math
-
-```js
 // add math.add action
 service.action('math.add', ctx => ctx.params.a + ctx.params.b);
 
@@ -41,6 +49,23 @@ service.action({
   handler: ctx => ctx.params.a * ctx.params.b;
 });
 
+```
+
+### Start
+
+```js
+
+await service.start()
+
+```
+
+### Run
+
+```js
+
+// run ping action
+const pingResponse  = await service.run('ping');
+
 // run math.add action
 const addResponse = await service.run('math.add', { a: 5, b: 3 });
 
@@ -48,93 +73,13 @@ const addResponse = await service.run('math.add', { a: 5, b: 3 });
 const multiplyResponse = await service.run('math.multiply', { a: 5, b: 3 });
 ```
 
+### Plugins
+
+TODO
+
 # Types
 
-### Service
-
-```ts
-interface IService {
-  id: string;
-  name: string;
-  actions: IActions;
-  plugins: IPlugins;
-  middleware: IMiddleware;
-
-  action(action: string | IAction, handler?: IHandler): IService;
-  use(action: string | IHandler | IHandler[], handler?: IHandler | IHandler[]): IService;
-  register(spec: IPlugin | IPlugin[]): IService;
-  run(action: string, params?: IParams, attributes?: IAttributes): Promise<any>;
-  start(): Promise<void>;
-}
-```
-
-### Handler
-
-```ts
-type IHandler = (ctx: IContext, next?: () => any) => any;
-```
-
-### Action
-
-```ts
-interface IAction {
-  name: string;
-  handler: IHandler;
-  type?: string;
-  version?: string;
-  description?: string;
-  meta?: {
-    [key: string]: any;
-  };
-}
-```
-
-
-### Plugin
-
-```ts
-type IPluginRegiser = (service: IService) => Promise<void>;
-
-interface IPlugin {
-  name: string;
-  register: IPluginRegiser;
-}
-```
-
-### Params
-
-```ts
-interface IParams {
-  [key: string]: any;
-}
-```
-
-### Attributes
-
-```ts
-interface IAttributes {
-  timestamp?: number;
-  requestId?: string;
-  correlationId?: string;
-  from?: string;
-  [key: string]: any;
-}
-```
-
-### Context
-
-```ts
-interface IContext {
-  action: string;
-  requestId: string;
-  timestamp: number;
-  correlationId?: string;
-  from?: string;
-  params: IParams;
-  attributes: IAttributes;
-  [key: string]: any;
-}
-```
+Please see [types.ts](./src/types.ts)
 
 # Inspiration
 
