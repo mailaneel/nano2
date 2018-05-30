@@ -28,8 +28,13 @@ export default class Service implements IService {
 
   constructor(config: IServiceConfig) {
     this.config = config;
+
+    if (!config.name) {
+      throw new Error('config.name is required parameter');
+    }
+
     this.id = getUUID();
-    this.name = this.config.name || this.id;
+    this.name = this.config.name;
     this.actions = this.config.actions;
     this.plugins = this.config.plugins;
     this.middleware = this.config.middleware;

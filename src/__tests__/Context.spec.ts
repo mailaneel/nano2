@@ -5,7 +5,7 @@ const action = 'test-action';
 const params = { a: 1, b: 2 };
 const emptyParams = {};
 const emptyMeta = {};
-const service = createService();
+const service = createService({ name: 'test' });
 
 describe('Context', () => {
 

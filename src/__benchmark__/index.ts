@@ -2,7 +2,7 @@
 import * as Benchmarkify from 'benchmarkify';
 import { createService } from '../index';
 
-const service = createService();
+const service = createService({ name: 'benchmark' });
 
 service.action('ping', () => {
   return '';

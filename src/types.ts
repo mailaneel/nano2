@@ -105,7 +105,7 @@ export interface IActionRunner {
 }
 
 export interface IServiceConfig {
-  name?: string;
+  name: string;
   actions: IActions;
   plugins: IPlugins;
   middleware: IMiddleware;

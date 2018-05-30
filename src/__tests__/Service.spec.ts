@@ -7,7 +7,7 @@ describe('Service', () => {
   let service = null;
 
   beforeEach(() => {
-    service = createService();
+    service = createService({ name: 'test' });
   });
 
   it('should have all interface methods and properties', () => {

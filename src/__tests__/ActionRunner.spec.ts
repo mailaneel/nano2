@@ -22,7 +22,7 @@ describe('ActionRunner', () => {
     handlerResolver = new HandlerResolver();
     handlerComposer = new HandlerComposer();
     contextFactory = new ContextFactory();
-    service = createService();
+    service = createService({ name: 'test' });
 
     runner = new ActionRunner(
       actions,
