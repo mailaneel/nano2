@@ -3,7 +3,6 @@
   "version": "0.0.10",
   "description": "nano2 service actions(functions) framework, supports middleware and plugins.",
   "main": "lib/index.js",
-  "repository": "nano2js/nano2",
   "keywords": [
     "application",
     "service",
@@ -55,5 +54,17 @@
       "tsx",
       "js"
     ]
-  }
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tenbitscode/nano2.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/tenbitscode/nano2/issues"
+  },
+  "homepage": "https://github.com/tenbitscode/nano2#readme"
 }
