@@ -14,6 +14,8 @@ describe('Service', () => {
     expect(service.actions).toBeDefined();
     expect(service.plugins).toBeDefined();
     expect(service.middleware).toBeDefined();
+    expect(service.config).toBeDefined();
+    expect(service.logger).toBeDefined();
     expect(service.id).toBeDefined();
     expect(service.name).toBeDefined();
     expect(service.call).toBeDefined();

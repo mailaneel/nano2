@@ -110,6 +110,15 @@ export interface IServiceConfig {
   plugins: IPlugins;
   middleware: IMiddleware;
   runner: IActionRunner;
+  logger: ILogger;
+}
+
+export interface ILogger {
+  log(...rest: any[]): void;
+  error(...rest: any[]): void;
+  warn(...rest: any[]): void;
+  info(...rest: any[]): void;
+  debug(...rest: any[]): void;
 }
 
 export interface IService {
@@ -119,6 +128,7 @@ export interface IService {
   plugins: IPlugins;
   middleware: IMiddleware;
   config: IServiceConfig;
+  logger: ILogger;
 
   action(action: string | IAction, handler?: IHandler): IService;
   use(action: string | IHandler | IHandler[], handler?: IHandler | IHandler[]): IService;

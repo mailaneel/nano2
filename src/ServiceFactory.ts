@@ -38,6 +38,7 @@ export const createPluginManager = () => {
 
 export const createService = (config: Partial<IServiceConfig> = {}): IService => {
   const name = config.name;
+  const logger = config.logger || console;
   const plugins = config.plugins || createPluginManager();
   const middleware = config.middleware || createMiddlewareManager();
   const actions = config.actions || createActionManager();
@@ -52,5 +53,6 @@ export const createService = (config: Partial<IServiceConfig> = {}): IService =>
     middleware,
     actions,
     runner,
+    logger,
   });
 };

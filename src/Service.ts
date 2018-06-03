@@ -5,6 +5,7 @@ import {
   IActionRunner,
   IActions,
   IHandler,
+  ILogger,
   IMeta,
   IMiddleware,
   IParams,
@@ -23,6 +24,7 @@ export default class Service implements IService {
   public plugins: IPlugins;
   public middleware: IMiddleware;
   public config: IServiceConfig;
+  public logger: ILogger;
   private runner: IActionRunner;
   private startPromise: Promise<any>;
 
@@ -39,6 +41,7 @@ export default class Service implements IService {
     this.plugins = this.config.plugins;
     this.middleware = this.config.middleware;
     this.runner = this.config.runner;
+    this.logger = this.config.logger;
   }
 
   public action(action: string | IAction | IActionMap, handler?: IHandler) {
